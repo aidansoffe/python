@@ -60,3 +60,20 @@ def save_comment():
   <li>Comment: {comment}</li>
   </ul>
   """
+
+
+@app.route('/r/<subreddit>')
+def show_subreddit(subreddit):
+  return f"<h1> Browsing the {subreddit} in Subreddit</h1>"
+
+
+POSTS ={
+  1: "Hello",
+  2: "Bye",
+  3: "How are you?"
+}
+
+@app.route('/post/<int:id>')
+def get_id(id):
+  post = POSTS.get(id, "post not found") #if nothing found will return post not found message
+  return f"<h1> {post}</h1>"
