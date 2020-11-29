@@ -42,13 +42,21 @@ def add_comment_form():
   return """
   <h1>Add a comment</h1>
   <form method='POST'>
-  <input type='text' placeholder='comment'/>
+  <input type='text' placeholder='comment' name='comment'/>
+  <input type='text' placeholder='username' name='username'/>
   <button>Submit</button>
   </form>
   """
 
 @app.route('/add-comment', methods=["POST"] )
 def save_comment():
-  return """
+  comment = request.form['comment']
+  username = request.form['username']
+  print (request.form)
+  return f"""
   <h1>Saved comment</h1>
+  <ul>
+  <li>Username: {username}</li>
+  <li>Comment: {comment}</li>
+  </ul>
   """
