@@ -67,6 +67,11 @@ def show_subreddit(subreddit):
   return f"<h1> Browsing the {subreddit} in Subreddit</h1>"
 
 
+
+@app.route('/<subreddit>/comment/<int:post_id>')
+def show_comments(subreddit, post_id):
+  return f"{post_id}{subreddit}"
+
 POSTS ={
   1: "Hello",
   2: "Bye",
@@ -77,3 +82,4 @@ POSTS ={
 def get_id(id):
   post = POSTS.get(id, "post not found") #if nothing found will return post not found message
   return f"<h1> {post}</h1>"
+
