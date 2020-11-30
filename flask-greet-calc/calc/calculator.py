@@ -51,7 +51,7 @@ app = Flask(__name__)
 
 #http://127.0.0.1:5000/div?a=5&b=3 this is what you enter on link
 
-### PART TWO
+### PART TWO of this solution
 
 operators = {
         "add": add,
