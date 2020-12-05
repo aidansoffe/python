@@ -1,5 +1,9 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
+from flask_debugtoolbar import DebugToolbarExtension 
+from random import randint
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'oh so secret'
+debug = DebugToolbarExtension(app)
 
 @app.route('/')
 def root_page():
@@ -16,15 +20,7 @@ def root_page():
 
 @app.route('/hello')
 def say_hello():
-  html = """
-  <html>
-  <body>
-  <h1>Hi there</h1>
-  <p> how are you?</p>
-  </body>
-  </html>
-  """
-  return html
+  return render_template("hello.html")
 
 @app.route('/goodbye')
 def say_bye():
@@ -68,9 +64,9 @@ def show_subreddit(subreddit):
 
 
 
-@app.route('/<subreddit>/comment/<int:post_id>')
+@app.route('/<subreddit>/comments/<int:post_id>')
 def show_comments(subreddit, post_id):
-  return f"{post_id}{subreddit}"
+  return f"<h1> Viewing comments for post {post_id} form the {subreddit} Subreddit</h1>"
 
 POSTS ={
   1: "Hello",
@@ -83,3 +79,13 @@ def get_id(id):
   post = POSTS.get(id, "post not found") #if nothing found will return post not found message
   return f"<h1> {post}</h1>"
 
+
+@app.route('/lucky')
+def lucky_number():
+  num = randint(1, 20)
+  return render_template('lucky.html', lucky_num = num, msg = "you are so lucky")
+
+
+app.route('/form')
+def forms():
+  return render_template('form.html')
