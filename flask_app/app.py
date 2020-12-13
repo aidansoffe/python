@@ -5,18 +5,18 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'oh so secret'
 debug = DebugToolbarExtension(app)
 
+@app.after_request
+def add_header(req):
+    """Add non-caching headers on every request."""
+    req.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    req.headers["Pragma"] = "no-cache"
+    req.headers["Expires"] = "0"
+    req.headers["Cache-Control"] = "public, max-age=0"
+    return req
+
 @app.route('/')
 def root_page():
-  r = """
-  <html>
-  <body>
-  <h1>This is the home page</h1>
-  <p>Thanks for visiting</p>
-  <a href='/hello'> Go to hello page</a>
-  </body>
-  </html>
-  """
-  return r
+  return render_template('home.html')
 
 @app.route('/hello')
 def say_hello():

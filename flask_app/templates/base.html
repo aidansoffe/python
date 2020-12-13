@@ -7,12 +7,17 @@
   <title>{% block tittle %} {% endblock %}</title>
 </head>
 <body>
-  <nav>
-  <a href=''>im a navbar</a>
-  <a href="">{% block page_name %} {% endblock %}</a>
-</nav>
-{% block content %}
-{% endblock %}
-<footer>im a footer</footer>
+  <nav class='navbar'>
+    <a href="/">Home</a>
+    <a href="/form">Form</a>
+    <a href="/form2">Form2</a>
+    <a href="/lucky">Lucky</a>
+  </nav>
+  <main id='content'>
+    {% block content %}{% endblock %}
+
+  </main>
+
+<script src='/static/app.js'></script>
 </body>
 </html>
