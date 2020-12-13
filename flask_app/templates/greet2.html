@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Greet2</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block tittle %} Greeter tittle {% endblock %}
+{% block content %}
+
   <h1>Hi there {{username}} !</h1>
   {% if compliments %}
   <h2>Here are compliments</h2>
@@ -15,5 +11,4 @@
     {% endfor %}
   </ul>
   {% endif %}
-</body>
-</html>
+{% endblock %}
