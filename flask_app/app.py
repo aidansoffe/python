@@ -1,9 +1,10 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect
 from flask_debugtoolbar import DebugToolbarExtension 
 from random import randint, choice, sample
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'oh so secret'
 debug = DebugToolbarExtension(app)
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 @app.after_request
 def add_header(req):
@@ -14,9 +15,51 @@ def add_header(req):
     req.headers["Cache-Control"] = "public, max-age=0"
     return req
 
+MOVIES = ['Kate', 'Titanic', 'Escape']
+
 @app.route('/')
 def root_page():
   return render_template('home.html')
+
+
+@app.route('/old-home-page')
+def redirect_home():
+  """ Redirects to a new home page"""
+  return redirect("/")
+
+
+@app.route("/movies")
+def show_all_movies():
+  """ Show all lists of movies"""
+  return render_template("movies.html", movies=MOVIES)
+
+@app.route("/movies/new", methods=['GET','POST'])
+def add_movie():
+  title = request.form['title']
+  MOVIES.append(title)
+  return redirect('/movies')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @app.route('/hello')
 def say_hello():

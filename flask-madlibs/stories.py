@@ -1,4 +1,3 @@
-
 class Story:
     """Madlibs story.
 
@@ -38,28 +37,32 @@ class Story:
         return text
 
 
-
 # Here's a story to get you started
 
 
-story = Story(
-    "earth", "dragon", "climb", "silly", "berries",
+story1 = Story(
+    "history",
+    "A History Tale",
     ["place", "noun", "verb", "adjective", "plural_noun"],
     """Once upon a time in a long-ago {place}, there lived a
        large {adjective} {noun}. It loved to {verb} {plural_noun}."""
 )
 
-story1 = Story(
-    "stones", "eat",
-    ["plural_noun", "verb"],
-    """ OMG! OMG! I love to {verb} with {plural_noun}"""
-)
 story2 = Story(
-    "strong", "kindergarden",
+    "omg",
+    "An Excited Adventure",
+    ["noun", "verb"],
+    """OMG!! OMG!! I love to {verb} a {noun}!"""
+)
+
+story3 = Story(
+    "travelling", "Dreaming",
     ["adjective", "place"],
     """ I like being {adjective} when I am in {place} """
 )
 
 
 # Make dict of {code:story, code:story, ...}
-stories = {s.code: s for s in [story1, story2]}
+stories = {s.code: s for s in [story1, story2, story3]}
+
+
