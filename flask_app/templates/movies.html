@@ -1,8 +1,10 @@
+{% extends 'base.html' %}
+
+{% block tittle %} Form2 tittle {% endblock %}
+{% block content %}
 
     <h1>List of movies</h1>
-    {% for msg in get_flashed_messages()%}
-    <p>{{msg}}</p>
-    {% endfor %}
+    
     <ul>
       {% for movie in movies %}
       <li>{{movie}}</li>
@@ -13,5 +15,5 @@
       <input type="text" placeholder="movie title" name="title">
       <button>Submit</button>
     </form>
-  
+{% endblock %}
   

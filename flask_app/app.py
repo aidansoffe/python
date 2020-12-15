@@ -25,6 +25,7 @@ def root_page():
 @app.route('/old-home-page')
 def redirect_home():
   """ Redirects to a new home page"""
+  flash("That page has moved")
   return redirect("/")
 
 
