@@ -25,3 +25,14 @@ body {
   background-color: #ddd;
   color: black;
 }
+
+
+.messages .success {
+  border: 4px solid green;
+ 
+}
+
+.messages .error {
+  border: 4px solid red;
+  
+}

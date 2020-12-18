@@ -15,7 +15,7 @@ def add_header(req):
     req.headers["Cache-Control"] = "public, max-age=0"
     return req
 
-MOVIES = ['Kate', 'Titanic', 'Escape']
+MOVIES = {'Kate', 'Titanic', 'Escape'}
 
 @app.route('/')
 def root_page():
@@ -37,8 +37,11 @@ def show_all_movies():
 @app.route("/movies/new", methods=['GET','POST'])
 def add_movie():
   title = request.form['title']
-  MOVIES.append(title)
-  flash('You added a movie')
+  if title in MOVIES:
+      flash('Movie already exists!', 'error')
+  else:
+      MOVIES.add(title)
+      flash('You added a movie', 'success')
   return redirect('/movies')
 
 

@@ -13,12 +13,13 @@
     <a href="/form2">Form2</a>
     <a href="/lucky">Lucky</a>
   </nav>
-  <section class="messages">
-    {% for msg in get_flashed_messages()%}
-    <p>{{msg}}</p>
-    {% endfor %}
-  </section>
+  
   <main id='content'>
+    <section class="messages">
+      {% for category, msg in get_flashed_messages(with_categories=true)%}
+      <p class="{{category}}">{{msg}}</p>
+      {% endfor %}
+    </section>
     {% block content %}{% endblock %}
 
   </main>
