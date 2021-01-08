@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, flash
+from flask import Flask, request, render_template, redirect, flash, jsonify
 from flask_debugtoolbar import DebugToolbarExtension 
 from random import randint, choice, sample
 app = Flask(__name__)
@@ -25,7 +25,7 @@ def root_page():
 @app.route('/old-home-page')
 def redirect_home():
   """ Redirects to a new home page"""
-  flash("That page has moved")
+  flash("That page has moved, This is our new home page!")
   return redirect("/")
 
 
@@ -33,6 +33,10 @@ def redirect_home():
 def show_all_movies():
   """ Show all lists of movies"""
   return render_template("movies.html", movies=MOVIES)
+
+@app.route("/movies/json")
+def get_movies_json():
+  return jsonify(list(MOVIES))
 
 @app.route("/movies/new", methods=['GET','POST'])
 def add_movie():
