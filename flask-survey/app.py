@@ -1,24 +1,30 @@
-from flask import Flask, request, render_template, redirect, flash, session
+from flask import Flask, request, render_template, redirect, flash, session, make_response
 from flask_debugtoolbar import DebugToolbarExtension
-from surveys import satisfaction_survey as survey
+from surveys import surveys
 
-# key names will use to store some things in the session;
-# put here as constants so we're guaranteed to be consistent in
-# our spelling of these
 RESPONSES_KEY = "responses"
+CURRENT_SURVEY_KEY = "current_survey"
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = "never-tell!"
+app.config['SECRET_KEY'] = "mysecret!"
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 debug = DebugToolbarExtension(app)
 
-
 @app.route("/")
-def show_survey_start():
-    """Select a survey."""
+def show_pick_survey_form():
+    return render_template("pick_survey.html", surveys=surveys)
 
-    return render_template("survey.html", survey=survey)
+@app.route("/", methods=["POST"])
+def pick_a_survey():
+    survey_id = request.form["survey_code"]
+    if request.cookies.get(f"completed{survey_id}"):
+        return render_template("already_done.html")
+
+    survey = surveys[survey_id]
+    session[CURRENT_SURVEY_KEY] = survey_id
+
+    return render_template("survey_start.html", survey=survey)
 
 
 @app.route("/start", methods=["POST"])
@@ -33,10 +39,13 @@ def start_survey():
 def handle_question():
    
     choice = request.form['answer']
+    text = request.form.get("text", "")
 
     responses = session[RESPONSES_KEY]
-    responses.append(choice)
+    responses.append({"choice": choice, "text": text})
     session[RESPONSES_KEY] = responses
+    survey_code = session[CURRENT_SURVEY_KEY]
+    survey = surveys[survey_code]
 
     if (len(responses) == len(survey.questions)):
        
@@ -50,6 +59,8 @@ def handle_question():
 def show_question(qid):
     
     responses = session.get(RESPONSES_KEY)
+    survey_code = session[CURRENT_SURVEY_KEY]
+    survey = surveys[survey_code]
 
     if (responses is None):
         return redirect("/")
@@ -58,7 +69,7 @@ def show_question(qid):
         return redirect("/complete")
 
     if (len(responses) != qid):
-        # Trying to access questions out of order.
+       
         flash(f"Invalid question id: {qid}.")
         return redirect(f"/questions/{len(responses)}")
 
@@ -69,6 +80,12 @@ def show_question(qid):
 
 @app.route("/complete")
 def complete():
-    """Survey complete. Show completion page."""
+    survey_id = session[CURRENT_SURVEY_KEY]
+    response = session[RESPONSES_KEY]
+    survey = surveys[survey_id]
 
-    return render_template("complete.html")
+    html =  render_template("complete.html", survey=survey, response=response)
+
+    response = make_response(html)
+    response.set_cookie(f"completed_{survey_id}", "yes")
+    return response
