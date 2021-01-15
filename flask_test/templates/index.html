@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="container">
+  <h1>Color form</h1>
+  <form action="/favcolor" method="POST">
+    <label>Whats your favorite color?</label>
+  <input  name="color" type="text" placeholder="...">
+  <button>submit</button><br>
+  </form>
+  <p>Page has been visited {{session['count']}} time(s)</p>
+</div>
+</body>
+</html>
